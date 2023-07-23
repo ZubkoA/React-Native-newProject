@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -10,11 +10,8 @@ import {
   KeyboardAvoidingView,
   TouchableOpacity,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 
-const RegistrationScreen = () => {
-  const [showKeyboard, setShowKeyboard] = useState(false);
-
+const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -22,47 +19,34 @@ const RegistrationScreen = () => {
         style={styles.bg}
       >
         <View style={styles.containerMenu}>
-          <Image style={styles.avatar}></Image>
-
-          <AntDesign style={styles.icon} name="pluscircleo" size={24} />
-
-          <Text style={styles.text}>Реєстрація</Text>
+          <Text style={styles.text}>Увійти</Text>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
           >
-            <View style={{ marginBottom: showKeyboard ? 16 : 27 }}>
-              <TextInput
-                style={styles.input}
-                placeholder="Логін"
-                onFocus={() => setShowKeyboard(true)}
-              />
+            <View>
               <TextInput
                 style={styles.input}
                 placeholder="Адреса електронної пошти"
-                onFocus={() => setShowKeyboard(true)}
               />
-              <TextInput
-                style={styles.input}
-                placeholder="Пароль"
-                onFocus={() => setShowKeyboard(true)}
-              />
+
+              <TextInput style={styles.input} placeholder="Пароль" />
               <Pressable>
                 <Text style={styles.textPassword}>Показати</Text>
               </Pressable>
             </View>
-          </KeyboardAvoidingView>
 
-          <TouchableOpacity style={styles.btn}>
-            <Text style={styles.btnText}>Зареєстуватися</Text>
-          </TouchableOpacity>
-          <View style={{ ...styles.nav, marginBottom: showKeyboard ? 16 : 66 }}>
-            <Pressable>
-              <Text style={styles.textNav}>Вже є акаунт?</Text>
-            </Pressable>
-            <Pressable>
-              <Text style={styles.textNav}>Увійти</Text>
-            </Pressable>
-          </View>
+            <TouchableOpacity style={styles.btn}>
+              <Text style={styles.btnText}>Зареєстуватися</Text>
+            </TouchableOpacity>
+            <View style={styles.nav}>
+              <Pressable>
+                <Text style={styles.textNav}>Немає акаунту?</Text>
+              </Pressable>
+              <Pressable>
+                <Text style={styles.textNav}>Зареєструватися</Text>
+              </Pressable>
+            </View>
+          </KeyboardAvoidingView>
         </View>
       </ImageBackground>
     </View>
@@ -80,30 +64,13 @@ const styles = StyleSheet.create({
     position: "relative",
     marginTop: 263,
     paddingHorizontal: 16,
-    paddingTop: 92,
-    height: 549,
+    paddingTop: 32,
+    height: 489,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     backgroundColor: "#fff",
   },
-  avatar: {
-    width: 120,
-    height: 120,
-    zIndex: 2,
-    position: "absolute",
-    left: 120,
-    top: -60,
-    backgroundColor: "#F6F6F6",
-    borderRadius: 16,
-    marginBottom: 33,
-  },
-  icon: {
-    zIndex: 3,
-    color: "#FF6C00",
-    position: "absolute",
-    left: 228,
-    top: 20,
-  },
+
   text: {
     fontFamily: "Roboto",
     fontSize: 30,
@@ -142,6 +109,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
     marginBottom: 16,
+    marginTop: 27,
   },
   btnText: {
     color: "#fff",
@@ -161,4 +129,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegistrationScreen;
+export default LoginScreen;
