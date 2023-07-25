@@ -1,11 +1,11 @@
 // import { StatusBar } from "expo-status-bar";
 import { useState } from "react";
 import { View } from "react-native";
-import RegistrationScreen from "./RegistrationScreen/RegistrationScreen";
+import RegistrationScreen from "./components/RegistrationScreen";
 
 import * as Font from "expo-font";
-import LoginScreen from "./LoginScreen/LoginScreen";
-import PostsScreen from "./PostsScreen";
+import LoginScreen from "./components/LoginScreen";
+import PostsScreen from "./screens/PostsScreen";
 
 const fonts = () =>
   Font.loadAsync({
@@ -18,8 +18,8 @@ export default function App() {
 
   return (
     <View>
-      <RegistrationScreen />
-      {/* <LoginScreen /> */}
+      {/* <RegistrationScreen /> */}
+      <LoginScreen />
       {/* <PostsScreen /> */}
     </View>
   );

@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Pressable, Image } from "react-native";
 
 import { MaterialIcons, Feather, AntDesign } from "@expo/vector-icons";
+import Colors from "../constants/colors";
 
 const PostsScreen = () => {
   return (
@@ -14,7 +15,10 @@ const PostsScreen = () => {
       </View>
       <View style={styles.main}>
         <View style={styles.wrap}>
-          <Image style={styles.img} source={require("./images/avatar.png")} />
+          <Image
+            style={styles.img}
+            source={require("../assets/images/avatar.png")}
+          />
           <View style={styles.mainText}>
             <Text style={styles.name}>Natali Romanova</Text>
             <Text style={styles.email}>email@example.com</Text>
@@ -22,11 +26,11 @@ const PostsScreen = () => {
         </View>
       </View>
       <View style={styles.footer}>
-        <MaterialIcons name="grid-view" size={24} color="#212121" />
+        <MaterialIcons name="grid-view" size={24} color={Colors.textMain} />
         <Pressable style={styles.buttonLink}>
           <AntDesign name="plus" size={24} color="white" />
         </Pressable>
-        <Feather name="user" size={24} color="#212121" />
+        <Feather name="user" size={24} color={Colors.textMain} />
       </View>
     </View>
   );
@@ -45,7 +49,7 @@ const styles = StyleSheet.create({
     marginTop: 44,
     paddingHorizontal: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#BDBDBD",
+    borderBottomColor: Colors.second700,
   },
   containerText: {
     marginLeft: 100,
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 17,
     textAlign: "center",
-    color: " #212121",
+    color: Colors.textMain,
   },
   main: {
     marginHorizontal: 16,
@@ -65,7 +69,7 @@ const styles = StyleSheet.create({
   },
   wrap: { flexDirection: "row", gap: 8 },
   mainText: {
-    color: "#212121",
+    color: Colors.textMain,
     fontFamily: "Roboto",
     alignSelf: "center",
   },
@@ -76,16 +80,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     borderTopWidth: 1,
-    borderTopColor: "#BDBDBD",
+    borderTopColor: Colors.second700,
     height: 83,
     alignItems: "center",
   },
 
   buttonLink: {
-    color: "#FF6C00",
+    color: Colors.primary500,
     borderRadius: 20,
     paddingVertical: 7,
-    backgroundColor: "#FF6C00",
+    backgroundColor: Colors.primary500,
     width: 70,
     height: 40,
     alignItems: "center",
