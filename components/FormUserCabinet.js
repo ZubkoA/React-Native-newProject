@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: Colors.second500,
     color: Colors.second700,
+    fontFamily: "roboto-light",
     fontSize: 16,
     lineHeight: 19,
     padding: 16,
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
     bottom: 38,
   },
   textPassword: {
+    fontFamily: "roboto-medium",
     color: Colors.textHelper,
     fontSize: 16,
     lineHeight: 19,

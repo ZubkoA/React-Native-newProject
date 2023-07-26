@@ -1,23 +1,31 @@
 // import { StatusBar } from "expo-status-bar";
-import { useState } from "react";
-import { View } from "react-native";
+import { useState, useCallback } from "react";
+import { View, Text } from "react-native";
+import * as SplashScreen from "expo-splash-screen";
+import { useFonts } from "expo-font";
 import RegistrationScreen from "./components/RegistrationScreen";
 
-import * as Font from "expo-font";
 import LoginScreen from "./components/LoginScreen";
 import PostsScreen from "./screens/PostsScreen";
 
-const fonts = () =>
-  Font.loadAsync({
-    "rob-bold": require("./assets/fonts/Roboto-Bold.ttf"),
-    "rob-medium": require("./assets/fonts/Roboto-Medium.ttf"),
+export default function App() {
+  const [fontsLoaded] = useFonts({
+    "roboto-bold": require("./assets/fonts/Roboto-Bold.ttf"),
+    "roboto-medium": require("./assets/fonts/Roboto-Medium.ttf"),
+    "roboto-light": require("./assets/fonts/Roboto-Light.ttf"),
   });
 
-export default function App() {
-  // const [font, setFont] = useState(false);
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded]);
 
+  if (!fontsLoaded) {
+    return null;
+  }
   return (
-    <View>
+    <View onLayout={onLayoutRootView}>
       <RegistrationScreen />
       {/* <LoginScreen /> */}
       {/* <PostsScreen /> */}

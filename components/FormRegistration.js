@@ -83,22 +83,22 @@ const FormRegistration = () => {
 
 export default FormRegistration;
 const styles = StyleSheet.create({
-  text: {
-    fontFamily: "Roboto",
-    fontSize: 30,
-    fontWeight: 600,
-    fontStyle: "normal",
-    lineHeight: 35,
-    letterSpacing: 0.01,
-    color: Colors.textMain,
-    textAlign: "center",
-  },
+  // text: {
+  //   fontFamily: "roboto-bold",
+  //   fontSize: 30,
+  //   fontStyle: "normal",
+  //   lineHeight: 35,
+  //   letterSpacing: 0.01,
+  //   color: Colors.textMain,
+  //   textAlign: "center",
+  // },
   input: {
     borderWidth: 1,
     borderColor: Colors.second600,
     borderRadius: 8,
     backgroundColor: Colors.second500,
     color: Colors.second700,
+    fontFamily: "roboto-light",
     fontSize: 16,
     lineHeight: 19,
     padding: 16,
@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     bottom: 38,
   },
   textPassword: {
+    fontFamily: "roboto-medium",
     color: Colors.textHelper,
     fontSize: 16,
     lineHeight: 19,

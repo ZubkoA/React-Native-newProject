@@ -9,9 +9,8 @@ export default Title;
 
 const styles = StyleSheet.create({
   title: {
-    fontFamily: "Roboto",
+    fontFamily: "roboto-bold",
     fontSize: 30,
-    fontWeight: 600,
     fontStyle: "normal",
     lineHeight: 35,
     letterSpacing: 0.01,

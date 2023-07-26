@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   btnText: {
+    fontFamily: "roboto-medium",
     color: Colors.primary,
     textAlign: "center",
     fontSize: 16,

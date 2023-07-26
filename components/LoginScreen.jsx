@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   textNav: {
+    fontFamily: "roboto-medium",
     color: Colors.textHelper,
     fontSize: 16,
     lineHeight: 19,
