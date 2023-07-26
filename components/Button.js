@@ -3,9 +3,9 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 
 import Colors from "../constants/colors";
 
-const Button = ({ children, onPress }) => {
+const Button = ({ children, onPress, style }) => {
   return (
-    <View style={styles.btnOuterContainer}>
+    <View style={[styles.btnOuterContainer, style]}>
       <Pressable
         style={({ pressed }) =>
           pressed

@@ -73,9 +73,10 @@ const FormRegistration = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
-      <View style={styles.btnContainer}>
-        <Button onPress={handleSubmit}>Зареєстуватися</Button>
-      </View>
+
+      <Button onPress={handleSubmit} style={styles.btnContainer}>
+        Зареєстуватися
+      </Button>
     </View>
   );
 };

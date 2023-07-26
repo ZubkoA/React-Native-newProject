@@ -18,8 +18,8 @@ export default function App() {
 
   return (
     <View>
-      {/* <RegistrationScreen /> */}
-      <LoginScreen />
+      <RegistrationScreen />
+      {/* <LoginScreen /> */}
       {/* <PostsScreen /> */}
     </View>
   );

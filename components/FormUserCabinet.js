@@ -63,9 +63,10 @@ const FormUserCabinet = () => {
           </View>
         </View>
       </KeyboardAvoidingView>
-      <View style={styles.btnContainer}>
-        <Button onPress={handleSubmit}>Увійти</Button>
-      </View>
+
+      <Button onPress={handleSubmit} style={styles.btnContainer}>
+        Увійти
+      </Button>
     </View>
   );
 };
