@@ -6,25 +6,29 @@ import Title from "./Title";
 import Colors from "../constants/colors";
 import Card from "./Card";
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({ navigation }) => {
+  function pressHandler() {
+    navigation.navigate("LoginScreen");
+  }
   return (
-    <Card style={styles.container}>
-      <Image style={styles.avatar}></Image>
+    <Card>
+      <View style={styles.container}>
+        <Image style={styles.avatar} />
 
-      <AntDesign style={styles.icon} name="pluscircleo" size={24} />
+        <AntDesign style={styles.icon} name="pluscircleo" size={24} />
 
-      <Title>Реєстрація</Title>
+        <Title>Реєстрація</Title>
 
-      <FormRegistration />
+        <FormRegistration navigation={navigation} />
+        <View>
+          <Pressable onPress={pressHandler}>
+            <View style={{ ...styles.nav, marginBottom: 66 }}>
+              <Text style={styles.textNav}>Вже є акаунт?</Text>
 
-      <View style={{ ...styles.nav, marginBottom: 66 }}>
-        {/* <View style={{ ...styles.nav, marginBottom: showKeyboard ? 16 : 66 }}></View> */}
-        <Pressable>
-          <Text style={styles.textNav}>Вже є акаунт?</Text>
-        </Pressable>
-        <Pressable>
-          <Text style={styles.textNav}>Увійти</Text>
-        </Pressable>
+              <Text style={styles.textNav}>Увійти</Text>
+            </View>
+          </Pressable>
+        </View>
       </View>
     </Card>
   );
@@ -38,16 +42,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     justifyContent: "flex-end",
   },
-  containerMenu: {
-    position: "relative",
-    marginTop: 263,
-    paddingHorizontal: 16,
-    paddingTop: 92,
-    height: 549,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    backgroundColor: Colors.primary,
-  },
+
   avatar: {
     width: 120,
     height: 120,

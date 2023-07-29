@@ -3,19 +3,18 @@ import { View, Text, Pressable, StyleSheet } from "react-native";
 
 import Colors from "../constants/colors";
 
-const Button = ({ children, onPress, style }) => {
+const Button = ({ children, onPress, style, styleText }) => {
   return (
     <View style={[styles.btnOuterContainer, style]}>
       <Pressable
-        style={({ pressed }) =>
-          pressed
-            ? [styles.btnInnerContainer, styles.pressed]
-            : styles.btnInnerContainer
-        }
+        style={({ pressed }) => [
+          styles.btnInnerContainer,
+          pressed ? styles.pressed : null,
+        ]}
         onPress={onPress}
         android_ripple={{ color: Colors.primary600 }}
       >
-        <Text style={styles.btnText}>{children}</Text>
+        <Text style={[styles.btnText, styleText]}>{children}</Text>
       </Pressable>
     </View>
   );
@@ -29,14 +28,12 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   btnInnerContainer: {
-    backgroundColor: Colors.primary500,
     paddingVertical: 16,
     paddingHorizontal: 32,
     elevation: 2,
   },
   btnText: {
     fontFamily: "roboto-medium",
-    color: Colors.primary,
     textAlign: "center",
     fontSize: 16,
     lineHeight: 19,

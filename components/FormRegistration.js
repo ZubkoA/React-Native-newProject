@@ -10,7 +10,7 @@ import {
 import Button from "./Button";
 import Colors from "../constants/colors";
 
-const FormRegistration = () => {
+const FormRegistration = ({ navigation }) => {
   const initialState = {
     login: "",
     email: "",
@@ -29,7 +29,7 @@ const FormRegistration = () => {
   };
 
   const handleSubmit = () => {
-    console.log(inputs);
+    navigation.navigate("PostsBtnScreen");
     resetInputHandler();
   };
 
@@ -74,7 +74,11 @@ const FormRegistration = () => {
         </View>
       </KeyboardAvoidingView>
 
-      <Button onPress={handleSubmit} style={styles.btnContainer}>
+      <Button
+        onPress={handleSubmit}
+        style={styles.btnContainer}
+        styleText={styles.btnText}
+      >
         Зареєстуватися
       </Button>
     </View>
@@ -83,15 +87,6 @@ const FormRegistration = () => {
 
 export default FormRegistration;
 const styles = StyleSheet.create({
-  // text: {
-  //   fontFamily: "roboto-bold",
-  //   fontSize: 30,
-  //   fontStyle: "normal",
-  //   lineHeight: 35,
-  //   letterSpacing: 0.01,
-  //   color: Colors.textMain,
-  //   textAlign: "center",
-  // },
   input: {
     borderWidth: 1,
     borderColor: Colors.second600,
@@ -117,5 +112,8 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     marginBottom: 16,
+    color: Colors.primary,
+    backgroundColor: Colors.primary500,
   },
+  btnText: { color: Colors.primary },
 });

@@ -10,7 +10,7 @@ import {
 import Colors from "../constants/colors";
 import Button from "./Button";
 
-const FormUserCabinet = () => {
+const FormUserCabinet = ({ navigation }) => {
   const initialState = {
     email: "",
     password: "",
@@ -27,7 +27,7 @@ const FormUserCabinet = () => {
   };
 
   const handleSubmit = () => {
-    console.log(inputs);
+    navigation.navigate("PostsBtnScreen");
     resetInputHandler();
   };
   const { email, password } = inputs;
@@ -64,7 +64,11 @@ const FormUserCabinet = () => {
         </View>
       </KeyboardAvoidingView>
 
-      <Button onPress={handleSubmit} style={styles.btnContainer}>
+      <Button
+        onPress={handleSubmit}
+        style={styles.btnContainer}
+        styleText={styles.btnText}
+      >
         Увійти
       </Button>
     </View>
@@ -100,5 +104,7 @@ const styles = StyleSheet.create({
   btnContainer: {
     marginBottom: 16,
     marginTop: 27,
+    backgroundColor: Colors.primary500,
   },
+  btnText: { color: Colors.primary },
 });

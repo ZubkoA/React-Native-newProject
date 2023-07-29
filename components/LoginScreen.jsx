@@ -1,33 +1,30 @@
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  Pressable,
-} from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import Title from "./Title";
 import FormUserCabinet from "./FormUserCabinet";
 import Colors from "../constants/colors";
 import Card from "./Card";
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
+  function pressHandler() {
+    navigation.navigate("RegistrationScreen");
+  }
   return (
-    <View>
-      <Card style={styles.container}>
+    <Card>
+      <View style={styles.container}>
         <Title>Увійти</Title>
-        <FormUserCabinet />
+        <FormUserCabinet navigation={navigation} />
+        <View>
+          <Pressable onPress={pressHandler}>
+            <View style={styles.nav}>
+              <Text style={styles.textNav}>Немає акаунту?</Text>
 
-        <View style={styles.nav}>
-          <Pressable>
-            <Text style={styles.textNav}>Немає акаунту?</Text>
-          </Pressable>
-          <Pressable>
-            <Text style={styles.textNav}>Зареєструватися</Text>
+              <Text style={styles.textNav}>Зареєструватися</Text>
+            </View>
           </Pressable>
         </View>
-      </Card>
-    </View>
+      </View>
+    </Card>
   );
 };
 

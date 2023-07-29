@@ -8,14 +8,14 @@ import {
 
 import Colors from "../constants/colors";
 
-const Card = ({ children, style }) => {
+const Card = ({ children }) => {
   return (
     <ImageBackground
       source={require("../assets/images/photoBG.png")}
       style={styles.bg}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={[styles.containerMenu, style]}>{children}</View>
+        <View style={styles.containerMenu}>{children}</View>
       </TouchableWithoutFeedback>
     </ImageBackground>
   );
