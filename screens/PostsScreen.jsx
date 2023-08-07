@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image } from "react-native";
+import { StyleSheet, Text, View, Image, Pressable } from "react-native";
 
 import { Feather } from "@expo/vector-icons";
 import Colors from "../constants/colors";
@@ -6,12 +6,17 @@ import CardPost from "../components/CardPost";
 import TitlePost from "../components/TitlePost";
 // import CardPostFooter from "../components/CardPostFooter";
 
-const PostsScreen = () => {
+const PostsScreen = ({ navigation }) => {
+  const handleLogOut = () => {
+    navigation.navigate("LoginScreen");
+  };
   return (
     <View style={styles.container}>
       <CardPost>
         <TitlePost>Публікації</TitlePost>
-        <Feather name="log-out" size={24} color="#BDBDBD" />
+        <Pressable onPress={handleLogOut}>
+          <Feather name="log-out" size={24} color="#BDBDBD" />
+        </Pressable>
       </CardPost>
       <View style={styles.main}>
         <View style={styles.wrap}>

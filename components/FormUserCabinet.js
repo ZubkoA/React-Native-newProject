@@ -27,7 +27,7 @@ const FormUserCabinet = ({ navigation }) => {
   };
 
   const handleSubmit = () => {
-    navigation.navigate("PostsBtnScreen");
+    navigation.navigate("Home");
     resetInputHandler();
   };
   const { email, password } = inputs;

@@ -29,7 +29,7 @@ const FormRegistration = ({ navigation }) => {
   };
 
   const handleSubmit = () => {
-    navigation.navigate("PostsBtnScreen");
+    navigation.navigate("Home");
     resetInputHandler();
   };
 
