@@ -1,37 +1,52 @@
 import { View, Image, Text, StyleSheet } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import Colors from "../constants/colors";
-import {
-  AntDesign,
-  SimpleLineIcons,
-  MaterialCommunityIcons,
-} from "@expo/vector-icons";
+import { SimpleLineIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Pressable } from "react-native";
 
-const ProfileRender = ({ img, title, message, like, location }) => {
+const ProfileRender = ({ post }) => {
+  const navigation = useNavigation();
+
+  function mapHandler() {
+    navigation.navigate("Mapscreen", {
+      pickedLocation: post.location,
+    });
+  }
+  function messageHandler() {
+    navigation.navigate("CommentsScreen", {
+      pickedUri: post.img,
+    });
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.imgContainer}>
-        <Image source={img} style={styles.img} />
+        <Image source={{ uri: post.img }} style={styles.img} />
       </View>
-      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.title}>{post.title}</Text>
       <View style={styles.iconContainer}>
-        <View style={styles.wrap}>
-          <MaterialCommunityIcons
-            name="message-reply"
-            size={24}
-            color={Colors.primary500}
-          />
-          <Text style={styles.text}>{message}</Text>
+        <View>
+          <Pressable onPress={messageHandler} style={styles.wrap}>
+            <MaterialCommunityIcons
+              name="message-reply"
+              size={24}
+              color={Colors.primary500}
+            />
+            <Text style={styles.text}>0</Text>
+          </Pressable>
 
-          <AntDesign name="like2" size={24} color={Colors.primary500} />
-          <Text style={styles.text}>{like}</Text>
+          {/* <AntDesign name="like2" size={24} color={Colors.primary500} />
+          <Text style={styles.text}>{post.like}</Text> */}
         </View>
-        <View style={styles.wrapLocation}>
-          <SimpleLineIcons
-            name="location-pin"
-            size={24}
-            color={Colors.second700}
-          />
-          <Text style={styles.text}>{location}</Text>
+        <View>
+          <Pressable style={styles.wrapLocation} onPress={mapHandler}>
+            <SimpleLineIcons
+              name="location-pin"
+              size={24}
+              color={Colors.second700}
+            />
+            <Text style={styles.text}>{post.locationTitle}</Text>
+          </Pressable>
         </View>
       </View>
     </View>
@@ -49,6 +64,7 @@ const styles = StyleSheet.create({
   },
   img: {
     width: "100%",
+    height: 240,
     borderRadius: 8,
   },
   title: {

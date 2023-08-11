@@ -1,5 +1,7 @@
-import { StyleSheet, View, Image } from "react-native";
-import { MaterialIcons } from "@expo/vector-icons";
+import * as Location from "expo-location";
+import { useState, useEffect } from "react";
+import { StyleSheet, View, Alert } from "react-native";
+
 import Colors from "../constants/colors";
 
 import CardPost from "../components/CardPost";
@@ -7,24 +9,78 @@ import TitlePost from "../components/TitlePost";
 import CardPostFooterDel from "../components/CardPostFooterDel";
 import TextPhoto from "../components/TextPhoto";
 import FormCreatePost from "../components/FormCreatePost";
+import ImgPicker from "../components/ImgPicker";
+import Button from "../components/Button";
+import { Profile } from "../model/profile";
 
-const CreatePostsScreen = () => {
+const CreatePostsScreen = ({ navigation }) => {
+  const [selectImg, setSelectImg] = useState("");
+  const [selectTitle, setSelectTitle] = useState("");
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+  // const [locationPermissionInformation, requestPermission] =
+  //   useForegroundPermissions();
+
+  // function resetInputHandler(resetForm) {
+  //   setSelectImg("");
+  //   setSelectTitle(resetForm);
+  // }
+
+  function takeImgHandler(imgUri) {
+    setSelectImg(imgUri);
+  }
+  function takeTitleHandler(title, locationTitle) {
+    setSelectTitle((prevState) => ({ ...prevState, title, locationTitle }));
+  }
+  const { locationTitle, title } = selectTitle;
+
+  useEffect(() => {
+    (async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        setErrorMsg("Permission to access location was denied");
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      const coords = {
+        lat: location.coords.latitude,
+        lng: location.coords.longitude,
+      };
+      setLocation(coords);
+    })();
+  }, []);
+  let text = "Waiting..";
+  if (errorMsg) {
+    text = errorMsg;
+  } else if (location) {
+    text = JSON.stringify(location);
+  }
+
+  const handleSubmit = () => {
+    const postData = new Profile(selectImg, title, locationTitle, location);
+    navigation.navigate("PostsScreen", { post: postData });
+    // getLocationHandler();
+    // resetInputHandler();
+    console.log(postData);
+  };
+
   return (
     <View style={styles.container}>
       <CardPost>
         <TitlePost>Створити публікацію</TitlePost>
       </CardPost>
       <View style={styles.main}>
-        <Image style={styles.avatar} />
-        <View style={styles.svgContainer}>
-          <MaterialIcons
-            name="photo-camera"
-            size={24}
-            color={Colors.second700}
-          />
-        </View>
+        <ImgPicker onTakeImg={takeImgHandler} />
         <TextPhoto style={styles.colorText}>Завантажте фото</TextPhoto>
-        <FormCreatePost />
+        <FormCreatePost onTakeTitle={takeTitleHandler} />
+        <Button
+          onPress={handleSubmit}
+          style={styles.btnContainer}
+          styleText={styles.btnText}
+        >
+          Опублікувати
+        </Button>
       </View>
       <CardPostFooterDel />
     </View>
@@ -42,29 +98,13 @@ const styles = StyleSheet.create({
     marginTop: 32,
     height: 580,
   },
-  avatar: {
-    width: "100%",
-    height: 240,
-    zIndex: 2,
-    position: "absolute",
+  btnContainer: {
+    marginBottom: 16,
+    marginTop: 27,
     backgroundColor: Colors.second500,
-    borderRadius: 16,
-    marginBottom: 33,
   },
-  svgContainer: {
-    width: 60,
-    height: 60,
-    zIndex: 3,
-    borderRadius: 150,
-    borderWidth: 3,
-    borderColor: Colors.primary,
-    backgroundColor: Colors.primary,
-    overflow: "hidden",
-    alignItems: "center",
-    justifyContent: "center",
-    marginHorizontal: 120,
-    marginVertical: 90,
-  },
+  btnText: { color: Colors.second700 },
+
   colorText: {
     color: Colors.second700,
   },

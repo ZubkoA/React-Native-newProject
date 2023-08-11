@@ -1,40 +1,45 @@
-class Profile {
-  constructor(id, img, title, message, like, location) {
-    this.id = id;
+export class Profile {
+  constructor(img, title, locationTitle, location) {
     this.img = img;
     this.title = title;
-    this.message = message;
-    this.like = like;
+    this.locationTitle = locationTitle;
+    // this.location = {
+    //   lat: latitude,
+    //   lng: longitude,
+    // };
     this.location = location;
+    // this.message = message;
+    // this.like = like;
+    this.id = new Date().toString() + Math.random().toString();
   }
 }
 
-export const PROFILE = [
-  new Profile(
-    "01",
-    require("../assets/images/default1.png"),
+// export const PROFILE = [
+//   new Profile(
+//     "01",
+//     require("../assets/images/default1.png"),
 
-    "Ліс",
-    "8",
-    "153",
-    "Ukraine"
-  ),
-  new Profile(
-    "02",
-    require("../assets/images/default.png"),
+//     "Ліс",
+//     "8",
+//     "153",
+//     "Ukraine"
+//   ),
+//   new Profile(
+//     "02",
+//     require("../assets/images/default.png"),
 
-    "Захід на Чорному морі",
-    "3",
-    "200",
-    "Ukraine"
-  ),
-  new Profile(
-    "03",
-    require("../assets/images/default2.png"),
+//     "Захід на Чорному морі",
+//     "3",
+//     "200",
+//     "Ukraine"
+//   ),
+//   new Profile(
+//     "03",
+//     require("../assets/images/default2.png"),
 
-    "Старий будиночок у Венеції",
-    "50",
-    "200",
-    "Italy"
-  ),
-];
+//     "Старий будиночок у Венеції",
+//     "50",
+//     "200",
+//     "Italy"
+//   ),
+// ];

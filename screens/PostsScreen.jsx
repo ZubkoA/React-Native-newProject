@@ -1,12 +1,33 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Pressable,
+  FlatList,
+} from "react-native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
 
 import { Feather } from "@expo/vector-icons";
 import Colors from "../constants/colors";
 import CardPost from "../components/CardPost";
 import TitlePost from "../components/TitlePost";
-// import CardPostFooter from "../components/CardPostFooter";
 
-const PostsScreen = ({ navigation }) => {
+import { useEffect, useState } from "react";
+import PostDetail from "../components/PostDetail";
+
+const PostsScreen = ({ route }) => {
+  const navigation = useNavigation();
+  const isFocused = useIsFocused();
+
+  const [postData, setPostData] = useState([]);
+
+  useEffect(() => {
+    if (isFocused && route.params) {
+      setPostData((curPosts) => [...curPosts, route.params.post]);
+    }
+  }, [isFocused, route]);
+
   const handleLogOut = () => {
     navigation.navigate("LoginScreen");
   };
@@ -29,8 +50,10 @@ const PostsScreen = ({ navigation }) => {
             <Text style={styles.email}>email@example.com</Text>
           </View>
         </View>
+        <PostDetail posts={postData} />
       </View>
-      {/* <CardPostFooter /> */}
+
+      <PostDetail />
     </View>
   );
 };

@@ -12,6 +12,7 @@ import RegistrationScreen from "./components/RegistrationScreen";
 import LoginScreen from "./components/LoginScreen";
 import Mapscreen from "./screens/Mapscreen";
 import Home from "./screens/Home";
+import CommentsScreen from "./screens/CommentsScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -43,6 +44,16 @@ export default function App() {
         <Stack.Screen
           name="Home"
           component={Home}
+          screenOptions={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Mapscreen"
+          component={Mapscreen}
+          screenOptions={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CommentsScreen"
+          component={CommentsScreen}
           screenOptions={{ headerShown: false }}
         />
       </Stack.Navigator>

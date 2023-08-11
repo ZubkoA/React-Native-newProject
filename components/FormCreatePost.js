@@ -1,13 +1,39 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
-import { SimpleLineIcons } from "@expo/vector-icons";
-import Colors from "../constants/colors";
-import Button from "./Button";
+import { useState } from "react";
 
-const FormCreatePost = () => {
+import { Alert, View, StyleSheet, TextInput } from "react-native";
+import { SimpleLineIcons } from "@expo/vector-icons";
+
+import {
+  getCurrentPositionAsync,
+  useForegroundPermissions,
+  PermissionStatus,
+} from "expo-location";
+
+import Colors from "../constants/colors";
+
+const FormCreatePost = ({ onTakeTitle }) => {
+  const initialState = {
+    title: "",
+    locationTitle: "",
+  };
+
+  const [inputs, setInputs] = useState(initialState);
+
+  const { title, locationTitle } = inputs;
+  const handleChange = (text, input) => {
+    setInputs((prevState) => ({ ...prevState, [input]: text }));
+    onTakeTitle(title, locationTitle);
+  };
+
   return (
     <View style={styles.formContainer}>
       <View style={styles.inputContainer}>
-        <TextInput style={styles.input} placeholder="Назва..." />
+        <TextInput
+          style={styles.input}
+          placeholder="Назва..."
+          value={title}
+          onChangeText={(text) => handleChange(text, "title")}
+        />
       </View>
       <View style={styles.inputContainer}>
         <SimpleLineIcons
@@ -16,12 +42,13 @@ const FormCreatePost = () => {
           color={Colors.second700}
           paddingVertical={16}
         />
-        <TextInput style={styles.input} placeholder="Місцевість..." />
+        <TextInput
+          style={styles.input}
+          placeholder="Місцевість..."
+          value={locationTitle}
+          onChangeText={(text) => handleChange(text, "locationTitle")}
+        />
       </View>
-
-      <Button style={styles.btnContainer} styleText={styles.btnText}>
-        Опубліковати
-      </Button>
     </View>
   );
 };
@@ -54,10 +81,4 @@ const styles = StyleSheet.create({
     // right: 16,
     // bottom: 138,
   },
-  btnContainer: {
-    marginBottom: 16,
-    marginTop: 27,
-    backgroundColor: Colors.second500,
-  },
-  btnText: { color: Colors.second700 },
 });

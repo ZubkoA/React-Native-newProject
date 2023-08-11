@@ -1,4 +1,5 @@
 import { StyleSheet, TextInput, View, Image, FlatList } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import { Feather } from "@expo/vector-icons";
 import Colors from "../constants/colors";
 
@@ -6,8 +7,23 @@ import CardPost from "../components/CardPost";
 import TitlePost from "../components/TitlePost";
 import { COMMENTS } from "../model/comments";
 import CommentsRender from "../components/CommentsRender";
+import { useState, useCallback, useEffect } from "react";
 
-const CommentsScreen = () => {
+const CommentsScreen = ({ route }) => {
+  const isFocused = useIsFocused();
+  const [imgUri, setImgUri] = useState("");
+  const currentUri = route.params.pickedUri;
+
+  const pathUri = useCallback(() => {
+    setImgUri(currentUri);
+  }, [route]);
+
+  useEffect(() => {
+    pathUri();
+  }, [pathUri]);
+
+  console.log(imgUri);
+
   return (
     <View style={styles.container}>
       <CardPost>
@@ -15,10 +31,7 @@ const CommentsScreen = () => {
       </CardPost>
       <View style={styles.main}>
         <View style={styles.imgContainer}>
-          <Image
-            source={require("../assets/images/default.png")}
-            style={styles.img}
-          />
+          <Image source={{ uri: imgUri }} style={styles.img} />
         </View>
         <View style={styles.wrapRender}>
           <FlatList
