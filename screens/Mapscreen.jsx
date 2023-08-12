@@ -1,30 +1,16 @@
-import { useState, useEffect } from "react";
-import { useIsFocused } from "@react-navigation/native";
 import { View, StyleSheet } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 
 const Mapscreen = ({ route }) => {
-  const isFocused = useIsFocused();
-  const [selectedLocation, setSelectedLocation] = useState();
-  const location = route.params.pickedLocation;
+  const latitude = route.params.geoLocation.lat;
+  const longitude = route.params.geoLocation.lng;
 
-  useEffect(() => {
-    if (isFocused && route.params) {
-      setSelectedLocation((prev) => ({
-        ...prev,
-        location,
-      }));
-    }
-  }, [isFocused, route]);
-
-  console.log(selectedLocation.location.lat);
   const region = {
-    latitude: selectedLocation.location.lat,
-    longitude: selectedLocation.location.lng,
+    latitude: latitude,
+    longitude: longitude,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };
-  console.log(region);
 
   return (
     <View style={styles.container}>
@@ -33,10 +19,10 @@ const Mapscreen = ({ route }) => {
         showsUserLocation={true}
         initialRegion={region}
       >
-        {selectedLocation && (
+        {route.params.geoLocation && (
           <Marker
             title="Picked location"
-            coordinate={selectedLocation.location}
+            coordinate={{ latitude: latitude, longitude: longitude }}
             description="Hello"
           />
         )}

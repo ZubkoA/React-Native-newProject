@@ -1,6 +1,6 @@
 import * as Location from "expo-location";
 import { useState, useEffect } from "react";
-import { StyleSheet, View, Alert } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import Colors from "../constants/colors";
 
@@ -18,13 +18,6 @@ const CreatePostsScreen = ({ navigation }) => {
   const [selectTitle, setSelectTitle] = useState("");
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
-  // const [locationPermissionInformation, requestPermission] =
-  //   useForegroundPermissions();
-
-  // function resetInputHandler(resetForm) {
-  //   setSelectImg("");
-  //   setSelectTitle(resetForm);
-  // }
 
   function takeImgHandler(imgUri) {
     setSelectImg(imgUri);
@@ -60,9 +53,8 @@ const CreatePostsScreen = ({ navigation }) => {
   const handleSubmit = () => {
     const postData = new Profile(selectImg, title, locationTitle, location);
     navigation.navigate("PostsScreen", { post: postData });
-    // getLocationHandler();
-    // resetInputHandler();
-    console.log(postData);
+
+    // console.log(postData);
   };
 
   return (

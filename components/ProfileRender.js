@@ -9,7 +9,7 @@ const ProfileRender = ({ post }) => {
 
   function mapHandler() {
     navigation.navigate("Mapscreen", {
-      pickedLocation: post.location,
+      geoLocation: post.location,
     });
   }
   function messageHandler() {
