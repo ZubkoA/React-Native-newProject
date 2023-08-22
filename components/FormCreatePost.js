@@ -1,13 +1,7 @@
 import { useState } from "react";
 
-import { Alert, View, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
 import { SimpleLineIcons } from "@expo/vector-icons";
-
-import {
-  getCurrentPositionAsync,
-  useForegroundPermissions,
-  PermissionStatus,
-} from "expo-location";
 
 import Colors from "../constants/colors";
 

@@ -36,7 +36,7 @@ const FormUserCabinet = ({ onLogin }) => {
       email,
       password,
     });
-    // navigation.navigate("Home");
+
     resetInputHandler();
   };
   const { email, password } = inputs;
