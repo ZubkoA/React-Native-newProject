@@ -31,11 +31,12 @@ const authSlice = createSlice({
       state.isLoading = true;
     },
     [login.fulfilled](state, action) {
-      state.user = action.payload.user;
+      state.user = action.payload;
       state.token = action.payload.token;
       state.isLoggedIn = true;
     },
     [login.rejected](state, action) {
+      state.user = action.payload;
       state.isLoggedIn = false;
       state.error = action.payload;
     },

@@ -12,13 +12,16 @@ import { Feather } from "@expo/vector-icons";
 import Colors from "../constants/colors";
 import CardPost from "../components/CardPost";
 import TitlePost from "../components/TitlePost";
-
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import PostDetail from "../components/PostDetail";
 
 const PostsScreen = ({ route }) => {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+
+  const state = useSelector((state) => state.auth.user);
+  console.log(state);
 
   const [postData, setPostData] = useState([]);
 

@@ -10,8 +10,8 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../config";
 
 const LoginScreen = ({ navigation }) => {
-  const state = useSelector((state) => state.auth.user);
-  console.log(state);
+  // const state = useSelector((state) => state.auth.user);
+  // console.log(state);
   const dispatch = useDispatch();
 
   function pressHandler() {
