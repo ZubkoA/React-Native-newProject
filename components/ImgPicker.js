@@ -29,8 +29,7 @@ function ImgPicker({ onTakeImg }) {
       onTakeImg(img.assets[0].uri);
     }
   };
-  console.log(image);
-
+ 
   return (
     <View>
       <View style={styles.post}>

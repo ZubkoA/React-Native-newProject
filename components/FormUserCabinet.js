@@ -9,8 +9,10 @@ import {
 } from "react-native";
 import Colors from "../constants/colors";
 import Button from "./Button";
+import { useNavigation } from "@react-navigation/native";
 
-const FormUserCabinet = ({ navigation }) => {
+const FormUserCabinet = ({ onLogin }) => {
+  const navigation = useNavigation();
   const initialState = {
     email: "",
     password: "",
@@ -27,7 +29,14 @@ const FormUserCabinet = ({ navigation }) => {
   };
 
   const handleSubmit = () => {
-    navigation.navigate("Home");
+    let { email, password } = inputs;
+    email = email.toLowerCase().trim();
+    password = password.trim();
+    onLogin({
+      email,
+      password,
+    });
+    // navigation.navigate("Home");
     resetInputHandler();
   };
   const { email, password } = inputs;

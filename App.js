@@ -1,21 +1,22 @@
 // import { StatusBar } from "expo-status-bar";
 import { useCallback } from "react";
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { useFonts } from "expo-font";
-import RegistrationScreen from "./components/RegistrationScreen";
+import RegistrationScreen from "./screens/RegistrationScreen";
 
-import LoginScreen from "./components/LoginScreen";
+import LoginScreen from "./screens/LoginScreen";
 import Mapscreen from "./screens/Mapscreen";
 import Home from "./screens/Home";
 import CommentsScreen from "./screens/CommentsScreen";
+import { persistor, store } from "./redux/store";
 
 const Stack = createNativeStackNavigator();
-const Tab = createBottomTabNavigator();
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -34,29 +35,33 @@ export default function App() {
     return null;
   }
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="LoginScreen" component={LoginScreen} />
-        <Stack.Screen
-          name="RegistrationScreen"
-          component={RegistrationScreen}
-        />
-        <Stack.Screen
-          name="Home"
-          component={Home}
-          screenOptions={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Mapscreen"
-          component={Mapscreen}
-          screenOptions={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="CommentsScreen"
-          component={CommentsScreen}
-          screenOptions={{ headerShown: false }}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="LoginScreen" component={LoginScreen} />
+            <Stack.Screen
+              name="RegistrationScreen"
+              component={RegistrationScreen}
+            />
+            <Stack.Screen
+              name="Home"
+              component={Home}
+              screenOptions={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="Mapscreen"
+              component={Mapscreen}
+              screenOptions={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="CommentsScreen"
+              component={CommentsScreen}
+              screenOptions={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 }

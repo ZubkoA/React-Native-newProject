@@ -1,16 +1,9 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TextInput,
-  KeyboardAvoidingView,
-  Pressable,
-} from "react-native";
+import { View, Text, StyleSheet, TextInput, Pressable } from "react-native";
 import Button from "./Button";
 import Colors from "../constants/colors";
 
-const FormRegistration = ({ navigation }) => {
+const FormRegistration = ({ onAuthenticate }) => {
   const initialState = {
     login: "",
     email: "",
@@ -21,58 +14,63 @@ const FormRegistration = ({ navigation }) => {
   const [inputs, setInputs] = useState(initialState);
   const [passwordVissible, setPasswordVissible] = useState(true);
 
-  function resetInputHandler() {
-    setInputs(initialState);
-  }
+  // function resetInputHandler() {
+  //   setInputs(initialState);
+  // }
   const handleChange = (text, input) => {
     setInputs((prevState) => ({ ...prevState, [input]: text }));
   };
 
   const handleSubmit = () => {
-    navigation.navigate("Home");
-    resetInputHandler();
+    let { email, password } = inputs;
+    email = email.toLowerCase().trim();
+    password = password.trim();
+
+    onAuthenticate({
+      login,
+      email,
+      password,
+    });
+
+    // resetInputHandler();
   };
 
   const { login, email, password } = inputs;
   return (
     <View>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
-        <View style={{ marginBottom: showKeyboard ? 16 : 27 }}>
-          <TextInput
-            style={styles.input}
-            placeholder="Логін"
-            value={login}
-            onChangeText={(text) => handleChange(text, "login")}
-            onFocus={() => setShowKeyboard(true)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Адреса електронної пошти"
-            value={email}
-            onChangeText={(text) => handleChange(text, "email")}
-            onFocus={() => setShowKeyboard(true)}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Пароль"
-            secureTextEntry={passwordVissible}
-            value={password}
-            onChangeText={(text) => handleChange(text, "password")}
-            onFocus={() => setShowKeyboard(true)}
-          />
-          <View style={styles.textPasswordContainer}>
-            <Pressable
-              onPress={() => {
-                setPasswordVissible(!passwordVissible);
-              }}
-            >
-              <Text style={styles.textPassword}>Показати</Text>
-            </Pressable>
-          </View>
+      <View style={{ marginBottom: showKeyboard ? 16 : 27 }}>
+        <TextInput
+          style={styles.input}
+          placeholder="Логін"
+          value={login}
+          onChangeText={(text) => handleChange(text, "login")}
+          onFocus={() => setShowKeyboard(true)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Адреса електронної пошти"
+          value={email}
+          onChangeText={(text) => handleChange(text, "email")}
+          onFocus={() => setShowKeyboard(true)}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Пароль"
+          secureTextEntry={passwordVissible}
+          value={password}
+          onChangeText={(text) => handleChange(text, "password")}
+          onFocus={() => setShowKeyboard(true)}
+        />
+        <View style={styles.textPasswordContainer}>
+          <Pressable
+            onPress={() => {
+              setPasswordVissible(!passwordVissible);
+            }}
+          >
+            <Text style={styles.textPassword}>Показати</Text>
+          </Pressable>
         </View>
-      </KeyboardAvoidingView>
+      </View>
 
       <Button
         onPress={handleSubmit}

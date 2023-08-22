@@ -1,19 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import Title from "./Title";
-import FormUserCabinet from "./FormUserCabinet";
+import Title from "../components/Title";
+import FormUserCabinet from "../components/FormUserCabinet";
 import Colors from "../constants/colors";
-import Card from "./Card";
+import Card from "../components/Card";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../util/http";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../config";
 
 const LoginScreen = ({ navigation }) => {
+  const state = useSelector((state) => state.auth.user);
+  console.log(state);
+  const dispatch = useDispatch();
+
   function pressHandler() {
     navigation.navigate("RegistrationScreen");
   }
+
+  const loginHandler = ({ email, password }) => {
+    dispatch(login({ email, password })).then((response) => {
+      if (response.type === "auth/login/fulfilled") {
+        navigation.navigate("Home");
+        reset();
+      } else {
+        return Alert.alert("Mistake");
+      }
+    });
+  };
   return (
     <Card>
       <View style={styles.container}>
         <Title>Увійти</Title>
-        <FormUserCabinet navigation={navigation} />
+        <FormUserCabinet onLogin={loginHandler} />
         <View>
           <Pressable onPress={pressHandler}>
             <View style={styles.nav}>
