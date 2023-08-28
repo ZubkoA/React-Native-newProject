@@ -3,12 +3,9 @@ export class Profile {
     this.img = img;
     this.title = title;
     this.locationTitle = locationTitle;
-    this.location = {
-      lat: latitude,
-      lng: longitude,
-    };
-    // this.location = location;
-    this.id = new Date().toString() + Math.random().toString();
+    this.location = location;
+
+    // this.id = new Date().toString() + Math.random().toString();
   }
 }
 

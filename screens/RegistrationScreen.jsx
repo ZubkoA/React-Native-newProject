@@ -19,9 +19,6 @@ import Loading from "../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 
 const RegistrationScreen = ({ navigation }) => {
-  // const state = useSelector((state) => state.auth.user);
-  // console.log(state);
-
   const dispatch = useDispatch();
 
   function pressHandler() {

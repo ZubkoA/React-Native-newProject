@@ -15,13 +15,15 @@ import TitlePost from "../components/TitlePost";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import PostDetail from "../components/PostDetail";
+import { logout } from "../util/http";
+import { getPosts } from "../util/httpPost";
 
 const PostsScreen = ({ route }) => {
   const navigation = useNavigation();
   const isFocused = useIsFocused();
+  const dispatch = useDispatch();
 
-  const state = useSelector((state) => state.auth.user);
-  console.log(state);
+  const stateUser = useSelector((state) => state.auth.user);
 
   const [postData, setPostData] = useState([]);
 
@@ -31,9 +33,17 @@ const PostsScreen = ({ route }) => {
     }
   }, [isFocused, route]);
 
+  useEffect(() => {
+    if (stateUser.token) {
+      dispatch(getPosts(stateUser.uid));
+    }
+  }, [stateUser]);
+
   const handleLogOut = () => {
+    dispatch(logout);
     navigation.navigate("LoginScreen");
   };
+
   return (
     <View style={styles.container}>
       <CardPost>

@@ -1,17 +1,14 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Alert, View, Text, StyleSheet, Pressable } from "react-native";
 import Title from "../components/Title";
 import FormUserCabinet from "../components/FormUserCabinet";
 import Colors from "../constants/colors";
 import Card from "../components/Card";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../util/http";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../config";
+import Loading from "../components/Loading";
 
 const LoginScreen = ({ navigation }) => {
-  // const state = useSelector((state) => state.auth.user);
-  // console.log(state);
   const dispatch = useDispatch();
 
   function pressHandler() {
@@ -23,6 +20,8 @@ const LoginScreen = ({ navigation }) => {
       if (response.type === "auth/login/fulfilled") {
         navigation.navigate("Home");
         reset();
+      } else if (response.type === "auth/login/pending") {
+        return <Loading>Waiting...</Loading>;
       } else {
         return Alert.alert("Mistake");
       }
