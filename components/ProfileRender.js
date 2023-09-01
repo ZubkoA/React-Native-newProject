@@ -4,26 +4,29 @@ import Colors from "../constants/colors";
 import { SimpleLineIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 
-const ProfileRender = ({ post }) => {
+const ProfileRender = ({ data: id, img, location, locationTitle, title }) => {
   const navigation = useNavigation();
 
   function mapHandler() {
     navigation.navigate("Mapscreen", {
-      geoLocation: post.location,
+      geoLocation: location,
+      title,
+      locationTitle,
     });
   }
   function messageHandler() {
     navigation.navigate("CommentsScreen", {
-      pickedUri: post.img,
+      photo: img,
+      idPost: id,
     });
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.imgContainer}>
-        <Image source={{ uri: post.img }} style={styles.img} />
+        <Image source={{ uri: img }} style={styles.img} />
       </View>
-      <Text style={styles.title}>{post.title}</Text>
+      <Text style={styles.title}>{title}</Text>
       <View style={styles.iconContainer}>
         <View>
           <Pressable onPress={messageHandler} style={styles.wrap}>
@@ -36,7 +39,7 @@ const ProfileRender = ({ post }) => {
           </Pressable>
 
           {/* <AntDesign name="like2" size={24} color={Colors.primary500} />
-          <Text style={styles.text}>{post.like}</Text> */}
+          <Text style={styles.text}>{like}</Text> */}
         </View>
         <View>
           <Pressable style={styles.wrapLocation} onPress={mapHandler}>
@@ -45,7 +48,7 @@ const ProfileRender = ({ post }) => {
               size={24}
               color={Colors.second700}
             />
-            <Text style={styles.text}>{post.locationTitle}</Text>
+            <Text style={styles.text}>{locationTitle}</Text>
           </Pressable>
         </View>
       </View>

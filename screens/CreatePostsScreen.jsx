@@ -14,13 +14,14 @@ import Button from "../components/Button";
 import { Profile } from "../model/profile";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../util/httpPost";
+import { selectUser } from "../util/selectors";
 
 const CreatePostsScreen = ({ navigation }) => {
   const [selectImg, setSelectImg] = useState("");
   const [selectTitle, setSelectTitle] = useState("");
   const [location, setLocation] = useState(null);
-  // const [errorMsg, setErrorMsg] = useState(null);
-  const userId = useSelector((state) => state.auth.user.uid);
+
+  const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
   function takeImgHandler(imgUri) {
@@ -47,17 +48,29 @@ const CreatePostsScreen = ({ navigation }) => {
       setLocation(coords);
     })();
   }, []);
-  // let text = "Waiting..";
-  // if (errorMsg) {
-  //   text = errorMsg;
-  // } else if (location) {
-  //   text = JSON.stringify(location);
-  // }
 
-  const handleSubmit = () => {
-    const postData = new Profile(selectImg, title, locationTitle, location);
-    // navigation.navigate("PostsScreen", { post: postData });
-    dispatch(createPost({ postData, userId }));
+  const handleSubmit = (actions) => {
+    const post = {
+      img: selectImg,
+      title,
+      locationTitle,
+      location,
+      comments: [],
+      likes: [],
+      idUser: user.uid,
+    };
+    // navigation.navigate("PostsScreen");
+    dispatch(createPost(post)).then((res) => {
+      if (res.type === "posts/create/fulfilled") {
+        setSelectImg("");
+        setSelectTitle("");
+        setLocation("");
+        navigation.navigate("Posts");
+        actions.resetForm();
+      } else {
+        return Alert.alert("Mistake", `server: ${res.payload}`);
+      }
+    });
   };
 
   return (

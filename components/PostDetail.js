@@ -6,7 +6,7 @@ function PostDetail({ posts }) {
     <FlatList
       data={posts}
       keyExtractor={(item) => item.id}
-      renderItem={({ item }) => <ProfileRender post={item} />}
+      renderItem={({ item }) => <ProfileRender data={item} />}
     />
   );
 }

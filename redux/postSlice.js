@@ -1,55 +1,47 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPost } from "../util/httpPost";
+import { createPost, getPosts, addComment } from "../util/httpPost";
 
 const initialState = {
-  isLoading: false,
   isRefreshing: false,
   isLoggedIn: false,
   error: "",
 
-  post: {
-    img: null,
-    title: null,
-    locationTitle: null,
-    location: null,
-    id: null,
-  },
+  post: [],
 };
 
 const postsSlice = createSlice({
   name: "posts",
   initialState,
   extraReducers: {
-    [createPost.pending](state) {
-      state.isLoading = true;
-    },
     [createPost.fulfilled](state, { payload }) {
       state.isLoading = false;
       state.isLoggedIn = true;
       state.error = null;
-      state.post.push(payload);
+      state.post = [payload, ...state.post];
     },
     [createPost.rejected](state, action) {
       state.isLoggedIn = false;
       state.error = action.payload;
     },
-    // [login.pending](state) {
-    //   state.isLoading = true;
+
+    [getPosts.fulfilled](state, action) {
+      state.post = action.payload;
+      state.isLoggedIn = true;
+    },
+    [getPosts.rejected](state, action) {
+      state.isLoggedIn = false;
+      state.error = action.payload;
+    },
+    // [addComment.fulfilled](state, action) {
+    //   state.post.push(action.payload);
+    // const { idPost, idUser, date, text } = action.payload;
+    // const newPost = state.post.find((item) => item.id === idPost);
+    // post.comments = [{ idUser, date, text }, ...newPost.comments];
+    // state.isLoggedIn = true;
     // },
-    // [login.fulfilled](state, action) {
-    //   state.user = action.payload;
-    //   state.token = action.payload.token;
-    //   state.isLoggedIn = true;
-    // },
-    // [login.rejected](state, action) {
-    //   state.user = action.payload;
+    // [addComment.rejected](state, action) {
     //   state.isLoggedIn = false;
     //   state.error = action.payload;
-    // },
-    // [logout.fulfilled](state, action) {
-    //   state.user = { login: null, email: null, userId: "" };
-    //   state.isLoggedIn = false;
-    //   state.error = null;
     // },
   },
 });

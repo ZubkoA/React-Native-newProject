@@ -17,27 +17,21 @@ import { useEffect, useState } from "react";
 import PostDetail from "../components/PostDetail";
 import { logout } from "../util/http";
 import { getPosts } from "../util/httpPost";
+import { selectUser, selectPosts } from "../util/selectors";
 
-const PostsScreen = ({ route }) => {
+const PostsScreen = () => {
   const navigation = useNavigation();
-  const isFocused = useIsFocused();
+
   const dispatch = useDispatch();
 
-  const stateUser = useSelector((state) => state.auth.user);
-
-  const [postData, setPostData] = useState([]);
-
-  useEffect(() => {
-    if (isFocused && route.params) {
-      setPostData((curPosts) => [...curPosts, route.params.post]);
-    }
-  }, [isFocused, route]);
+  const posts = useSelector(selectPosts);
+  console.log(posts);
+  const user = useSelector(selectUser);
+  console.log(user);
 
   useEffect(() => {
-    if (stateUser.token) {
-      dispatch(getPosts(stateUser.uid));
-    }
-  }, [stateUser]);
+    dispatch(getPosts());
+  }, [dispatch]);
 
   const handleLogOut = () => {
     dispatch(logout);
@@ -59,11 +53,11 @@ const PostsScreen = ({ route }) => {
             source={require("../assets/images/avatar.png")}
           />
           <View style={styles.mainText}>
-            <Text style={styles.name}>Natali Romanova</Text>
-            <Text style={styles.email}>email@example.com</Text>
+            <Text style={styles.name}>{user.login}</Text>
+            <Text style={styles.email}>{user.email}</Text>
           </View>
         </View>
-        <PostDetail posts={postData} />
+        <PostDetail posts={posts} />
       </View>
 
       <PostDetail />

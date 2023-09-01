@@ -9,7 +9,9 @@ import { COMMENTS } from "../model/comments";
 import CommentsRender from "../components/CommentsRender";
 
 const CommentsScreen = ({ route }) => {
-  const currentUri = route.params.pickedUri;
+  const { photo } = route.params;
+  // const dispatch = useDispatch();
+  const posts = useSelector(selectPosts);
 
   return (
     <View style={styles.container}>
@@ -18,7 +20,7 @@ const CommentsScreen = ({ route }) => {
       </CardPost>
       <View style={styles.main}>
         <View style={styles.imgContainer}>
-          <Image source={{ uri: currentUri }} style={styles.img} />
+          <Image source={{ uri: photo }} style={styles.img} />
         </View>
         <View style={styles.wrapRender}>
           <FlatList

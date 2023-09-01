@@ -10,18 +10,13 @@ import { auth } from "../config";
 
 export const register = createAsyncThunk(
   "auth/register",
-  async ({ login, email, password }, thunkAPI) => {
+  async ({ email, password }, thunkAPI) => {
     try {
       const { user } = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      await updateProfile(user, {
-        displayName: login,
-        // photoURL: profileImageUrl,
-      });
-      //
       return { login: displayName, email, password, uid };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -34,11 +29,12 @@ export const login = createAsyncThunk(
   async ({ email, password }, thunkAPI) => {
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
+
       return {
-        login: user.displayName,
-        email: user.email,
-        token: user.stsTokenManager.accessToken,
         uid: user.uid,
+        login: user.displayName,
+        email,
+        password,
       };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);

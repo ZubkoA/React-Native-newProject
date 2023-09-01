@@ -3,29 +3,25 @@ import {
   collection,
   addDoc,
   doc,
-  getDoc,
+  getDocs,
   setDoc,
   arrayUnion,
   updateDoc,
 } from "firebase/firestore";
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { db, storage } from "../config";
+import { getRealPhotoURL } from "./photo";
 
 export const getPosts = createAsyncThunk(
   "posts/fetchAll",
-  async (uid, thunkAPI) => {
+  async (_, thunkAPI) => {
     try {
-      const docRef = doc(db, "posts", uid);
-      const docSnap = await getDoc(docRef);
-      const posts = docSnap.data().posts;
-      if (posts.length > 0) {
-        // for (post of posts) {
-        //   const url = await getDownloadURL(ref(storage, post.imageUrl));
-        //   post.imageUrl = url;
-        // }
-        return allPosts;
-      }
-      return null;
+      const posts = await getDocs(collection(db, "posts"));
+      const array = [];
+      posts.forEach((doc) => {
+        array.push({ id: doc.id, ...doc.data() });
+      });
+      return array;
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error.message);
@@ -33,75 +29,69 @@ export const getPosts = createAsyncThunk(
   }
 );
 
-// export const createPost = createAsyncThunk(
-//   "posts/create",
-//   async ({ uid, newPost }, thunkAPI) => {
-//     try {
-//       //   const docRef = await addDoc(collection(db, "posts"), {
-//       //     newPost,
-//       //   });
-//       //   console.log("Document written with ID: ", docRef.id);
-//       // } catch (e) {
-//       //   console.error("Error adding document: ", e);
-//       //   throw e;
-//       // }
-//       const pathImg = ref(storage, newPost.img);
-//       const img = await fetch(newPost.img);
-//       const bytes = await img.blob();
-//       const randomNumber = Date.now();
-//       const createdUrl = `posts/${randomNumber}`;
-//       const postImageRef = ref(storage, createdUrl);
-//       await uploadBytes(postImageRef, bytes);
-//       const url = await getDownloadURL(ref(storage, createdUrl));
-//       const docRef = doc(db, "posts", uid);
-//       await updateDoc(docRef, {
-//         posts: arrayUnion({ ...newPost, img: url }),
-//       });
-//       return { ...newPost, imageUrl: url };
-//     } catch (error) {
-//       console.log(error);
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
-
-// export const createPost = createAsyncThunk(
-//   "posts/create",
-//   async ({ postData }, thunkAPI) => {
-//     console.log(postData);
-//     try {
-//       const docRef = await addDoc(collection(db, "posts"), {
-//         ...postData,
-//       });
-//       console.log("Document written with ID: ", docRef);
-
-//       console.log(docSnap);
-//       // const newPost = await setDoc(docRef);
-//       // if (docSnap.exists()) {
-//       //   console.log("Document data:", docSnap.data());
-//       // } else {
-//       //   // docSnap.data() will be undefined in this case
-//       //   console.log("No such document!");
-//       // }
-//     } catch (error) {
-//       console.log(error);
-//       return thunkAPI.rejectWithValue(error.message);
-//     }
-//   }
-// );
 export const createPost = createAsyncThunk(
   "posts/create",
-  async ({ postData, userId }, thunkAPI) => {
-    console.log(userId);
-    console.log(postData);
+  async (post, thunkAPI) => {
     try {
-      const docRef = doc(db, "posts", userId);
-      const docSnap = await setDoc(docRef, { ...postData });
+      console.log(post);
+      const photo = post.img;
+      const { img, ...rest } = post;
+      const realPhotoURL = await getRealPhotoURL(photo);
 
-      console.log(docSnap);
+      newPost = { img: realPhotoURL, ...rest };
+      console.log("this is new", newPost);
+
+      const docRef = await addDoc(collection(db, "posts"), newPost);
+
+      return { id: docRef.id, ...post };
     } catch (error) {
       console.log(error);
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
+
+// export const addComment = createAsyncThunk(
+//   "posts/addComment",
+//   async (comment, thunkAPI) => {
+//     try {
+//       console.log(comment);
+//       const { idPost, date, ...restCommentData } = comment;
+//       const dateString = formatDate(date);
+//       const postRef = doc(db, "posts", idPost);
+//       await updateDoc(postRef, {
+//         comments: arrayUnion({ date: dateString, ...restCommentData }),
+//       });
+
+//       return { idPost, date: dateString, ...restCommentData };
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );
+
+// export const addLike = createAsyncThunk(
+//   "posts/addLike",
+//   async ({ idPost, idUser }, thunkAPI) => {
+//     try {
+//       const state = thunkAPI.getState();
+//       const posts = state.posts.items;
+//       const post = posts.find((post) => post.id === idPost);
+//       if (!post.likes.find((id) => idUser === id)) {
+//         const postRef = doc(db, "posts", idPost);
+//         await updateDoc(postRef, {
+//           likes: arrayUnion(idUser),
+//         });
+//         return { idPost, idUser, typeOfDoing: "increase" };
+//       } else {
+//         const postRef = doc(db, "posts", idPost);
+//         await updateDoc(postRef, {
+//           likes: arrayRemove(idUser),
+//         });
+//         return { idPost, idUser, typeOfDoing: "reduce" };
+//       }
+//     } catch (error) {
+//       return thunkAPI.rejectWithValue(error.message);
+//     }
+//   }
+// );
