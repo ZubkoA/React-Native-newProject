@@ -4,55 +4,55 @@ import Colors from "../constants/colors";
 import { SimpleLineIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 
-const ProfileRender = ({ data: id, img, location, locationTitle, title }) => {
-  const navigation = useNavigation();
+const ProfileRender = ({ data }) => {
+  // поміняв тут назви полей під нову структуру
 
+  const { geoLocation, location, name, url } = data;
+
+  const navigation = useNavigation();
   function mapHandler() {
     navigation.navigate("Mapscreen", {
-      geoLocation: location,
-      title,
-      locationTitle,
+      geoLocation: geoLocation,
+      name,
+      location,
     });
   }
   function messageHandler() {
     navigation.navigate("CommentsScreen", {
-      photo: img,
-      idPost: id,
+      img: url,
     });
   }
-
   return (
-    <View style={styles.container}>
-      <View style={styles.imgContainer}>
-        <Image source={{ uri: img }} style={styles.img} />
-      </View>
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.iconContainer}>
-        <View>
-          <Pressable onPress={messageHandler} style={styles.wrap}>
-            <MaterialCommunityIcons
-              name="message-reply"
-              size={24}
-              color={Colors.primary500}
-            />
-            <Text style={styles.text}>0</Text>
-          </Pressable>
-
-          {/* <AntDesign name="like2" size={24} color={Colors.primary500} />
-          <Text style={styles.text}>{like}</Text> */}
+    name && (
+      <View style={styles.container}>
+        <View style={styles.imgContainer}>
+          <Image source={{ uri: url }} style={styles.img} />
         </View>
-        <View>
-          <Pressable style={styles.wrapLocation} onPress={mapHandler}>
-            <SimpleLineIcons
-              name="location-pin"
-              size={24}
-              color={Colors.second700}
-            />
-            <Text style={styles.text}>{locationTitle}</Text>
-          </Pressable>
+        <Text style={styles.title}>{name}</Text>
+        <View style={styles.iconContainer}>
+          <View>
+            <Pressable onPress={messageHandler} style={styles.wrap}>
+              <MaterialCommunityIcons
+                name="message-reply"
+                size={24}
+                color={Colors.primary500}
+              />
+              <Text style={styles.text}>0</Text>
+            </Pressable>
+          </View>
+          <View>
+            <Pressable style={styles.wrapLocation} onPress={mapHandler}>
+              <SimpleLineIcons
+                name="location-pin"
+                size={24}
+                color={Colors.second700}
+              />
+              <Text style={styles.text}>{location}</Text>
+            </Pressable>
+          </View>
         </View>
       </View>
-    </View>
+    )
   );
 };
 

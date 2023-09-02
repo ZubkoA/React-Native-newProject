@@ -12,6 +12,7 @@ export const register = createAsyncThunk(
   "auth/register",
   async ({ email, password }, thunkAPI) => {
     try {
+      console.log(email, password);
       const { user } = await createUserWithEmailAndPassword(
         auth,
         email,

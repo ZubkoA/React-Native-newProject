@@ -18,23 +18,28 @@ import PostDetail from "../components/PostDetail";
 import { logout } from "../util/http";
 import { getPosts } from "../util/httpPost";
 import { selectUser, selectPosts } from "../util/selectors";
+import { auth, db } from "../config";
+import { signOut } from "firebase/auth";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
 
 const PostsScreen = () => {
+  const [posts, setPosts] = useState([]); // пости зберігаються тут, можете перенести в редакс, якщо хочете
   const navigation = useNavigation();
-
-  const dispatch = useDispatch();
-
-  const posts = useSelector(selectPosts);
   console.log(posts);
-  const user = useSelector(selectUser);
-  console.log(user);
-
   useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+    const dbRef = collection(db, "posts"); //тут додав підписку на onSnapshot, щоб брати всі пости
+    const unsubscribe = onSnapshot(dbRef, (docsSnap) => {
+      const updatedPosts = docsSnap.docs.map((doc) => doc.data());
+      setPosts(updatedPosts);
+    });
+    return () => unsubscribe();
+  }, []);
 
-  const handleLogOut = () => {
-    dispatch(logout);
+  const user = useSelector(selectUser);
+
+  const handleLogOut = async () => {
+    //  dispatch(logout); //це теж не працює, викликайте напряму
+    await signOut(auth);
     navigation.navigate("LoginScreen");
   };
 

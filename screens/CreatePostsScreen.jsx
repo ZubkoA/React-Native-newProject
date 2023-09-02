@@ -49,26 +49,23 @@ const CreatePostsScreen = ({ navigation }) => {
     })();
   }, []);
 
-  const handleSubmit = (actions) => {
+  const handleSubmit = () => {
     const post = {
-      img: selectImg,
-      title,
-      locationTitle,
-      location,
-      comments: [],
-      likes: [],
-      idUser: user.uid,
+      name: title,
+      location: locationTitle,
+      geoLocation: location,
+      photoUri: selectImg,
     };
-    // navigation.navigate("PostsScreen");
+
+    navigation.navigate("PostsScreen");
     dispatch(createPost(post)).then((res) => {
       if (res.type === "posts/create/fulfilled") {
         setSelectImg("");
         setSelectTitle("");
         setLocation("");
-        navigation.navigate("Posts");
-        actions.resetForm();
+        navigation.navigate("PostsScreen");
       } else {
-        return Alert.alert("Mistake", `server: ${res.payload}`);
+        return alert(res.payload);
       }
     });
   };

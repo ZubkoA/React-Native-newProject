@@ -9,9 +9,10 @@ import { COMMENTS } from "../model/comments";
 import CommentsRender from "../components/CommentsRender";
 
 const CommentsScreen = ({ route }) => {
-  const { photo } = route.params;
+  const photo = route.params.img;
+  console.log(photo);
   // const dispatch = useDispatch();
-  const posts = useSelector(selectPosts);
+  // const posts = useSelector(selectPosts);
 
   return (
     <View style={styles.container}>

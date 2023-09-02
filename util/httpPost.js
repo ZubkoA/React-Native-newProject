@@ -11,6 +11,7 @@ import {
 import { ref, getDownloadURL, uploadBytes } from "firebase/storage";
 import { db, storage } from "../config";
 import { getRealPhotoURL } from "./photo";
+import * as MediaLibrary from "expo-media-library";
 
 export const getPosts = createAsyncThunk(
   "posts/fetchAll",
@@ -30,22 +31,35 @@ export const getPosts = createAsyncThunk(
 );
 
 export const createPost = createAsyncThunk(
+  //  переписав логіку додавання поста
   "posts/create",
-  async (post, thunkAPI) => {
+  async ({ photoUri, ...restData }, thunkAPI) => {
     try {
-      console.log(post);
-      const photo = post.img;
-      const { img, ...rest } = post;
-      const realPhotoURL = await getRealPhotoURL(photo);
+      const { creationTime } = await MediaLibrary.createAssetAsync(photoUri);
+      const response = await fetch(photoUri);
+      const file = await response.blob();
+      const snapshot = await uploadBytes(
+        ref(storage, `posts/${creationTime}.jpg`),
+        file
+      );
+      const url = await getDownloadURL(snapshot.ref);
+      const post = {
+        ...restData,
+        url,
+        creationTime,
+      };
 
-      newPost = { img: realPhotoURL, ...rest };
-      console.log("this is new", newPost);
-
-      const docRef = await addDoc(collection(db, "posts"), newPost);
-
-      return { id: docRef.id, ...post };
+      try {
+        const docRef = await setDoc(
+          doc(db, "posts", `${post.creationTime}`),
+          post
+        ).catch((e) => alert(e));
+      } catch (error) {
+        console.log(error.message);
+      }
+      return post;
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
       return thunkAPI.rejectWithValue(error.message);
     }
   }

@@ -17,6 +17,8 @@ import Card from "../components/Card";
 import { register } from "../util/http";
 import Loading from "../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../config";
 
 const RegistrationScreen = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -25,7 +27,7 @@ const RegistrationScreen = ({ navigation }) => {
     navigation.navigate("LoginScreen");
   }
 
-  const signUpHandler = ({ login, email, password }) => {
+  const signUpHandler = async ({ login, email, password }) => {
     const loginValid = login.length > 0;
     const emailValid = email.includes("@");
     const passwordValid = password.length > 5;
@@ -33,8 +35,14 @@ const RegistrationScreen = ({ navigation }) => {
       Alert.alert("Invalid Input, Please check in your put values");
       return;
     }
-    dispatch(register({ login, email, password }));
-    navigation.navigate("Home");
+    // dispatch(register({ login, email, password })); // ваш варіант не працює, розберіться чому, або можете лишити так
+    try {
+      const user = await createUserWithEmailAndPassword(auth, email, password);
+      console.log(user, "user"); //це обєкт юзера, не потрібно деструктуровувати типу { user } отримавши обʼєкт тут, можете засетити його в редакс
+      navigation.navigate("Home");
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (
